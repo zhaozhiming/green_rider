@@ -1,4 +1,4 @@
-package com.green.rider.server;
+package com.green.rider.server.controller;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -59,7 +59,6 @@ public class GreenRiderController {
         result.put("status_code", HttpServletResponse.SC_OK);
         return result.toString();
     }
-
 
     @RequestMapping(value = "/api/plan/join", method = RequestMethod.POST)
     public
