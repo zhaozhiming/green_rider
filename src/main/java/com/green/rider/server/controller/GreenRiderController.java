@@ -67,13 +67,6 @@ public class GreenRiderController {
         return userJson.toString();
     }
 
-    @RequestMapping(value = "/api/plans", method = RequestMethod.GET)
-    public
-    @ResponseBody
-    String getAllPlans() throws JSONException {
-        return getPlansJson(planRepository.findAll()).toString();
-    }
-
     @RequestMapping(value = "/api/plan/create", method = RequestMethod.POST)
     public
     @ResponseBody
@@ -130,10 +123,10 @@ public class GreenRiderController {
             }
         }
 
-        return getPlansJson(uidPlans).toString();
+        return getPlansJson(uidPlans, starter).toString();
     }
 
-    private JSONArray getPlansJson(Collection<Plan> uidPlans) throws JSONException {
+    private JSONArray getPlansJson(Collection<Plan> uidPlans, User starter) throws JSONException {
         JSONArray plansJson = new JSONArray();
         for (Plan plan : uidPlans) {
             JSONObject planJson = new JSONObject();
@@ -144,6 +137,7 @@ public class GreenRiderController {
             planJson.put("end_place", plan.getEndPlace());
             planJson.put("start_time", plan.getStartTime());
             planJson.put("joiners", getJoinersJson(plan));
+            planJson.put("role", (plan.getStarter().equals(starter)) ? "starter" : "joiner");
             plansJson.put(planJson);
         }
         return plansJson;
