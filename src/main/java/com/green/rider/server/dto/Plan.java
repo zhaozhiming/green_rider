@@ -29,6 +29,15 @@ public class Plan {
     @Basic
     private List<User> joiners;
 
+    public Plan(String planname, String starter, Date startTime, String startPlace, String endPlace, List<User> joiners) {
+        this.planname = planname;
+        this.starter = starter;
+        this.startTime = startTime;
+        this.startPlace = startPlace;
+        this.endPlace = endPlace;
+        this.joiners = joiners;
+    }
+
     public Long getPid() {
         return pid;
     }

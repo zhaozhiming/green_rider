@@ -18,6 +18,11 @@ public class User {
     @Basic
     private String password;
 
+    public User(String username, String password) {
+        this.username = username;
+        this.password = password;
+    }
+
     public Long getUid() {
         return uid;
     }
