@@ -1,5 +1,6 @@
 package com.green.rider.server.controller;
 
+import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
 import com.green.rider.server.dto.Plan;
 import com.green.rider.server.dto.User;
@@ -78,9 +79,11 @@ public class GreenRiderController {
         String joinersSource = request.getParameter("joiners");
 
         List<User> joiners = Lists.newArrayList();
-        String[] joinerUids = joinersSource.split(";");
-        for (String joinerUid : joinerUids) {
-            joiners.add(userRepository.findOne(Long.valueOf(joinerUid)));
+        if (!Strings.isNullOrEmpty(joinersSource)) {
+            String[] joinerUids = joinersSource.split(";");
+            for (String joinerUid : joinerUids) {
+                joiners.add(userRepository.findOne(Long.valueOf(joinerUid)));
+            }
         }
 
         Plan plan = new Plan(planname, Long.valueOf(starter),

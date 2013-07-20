@@ -1,5 +1,6 @@
 package com.green.rider.server;
 
+import org.joda.time.DateTime;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -17,6 +18,8 @@ import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppContextSetup;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -45,4 +48,17 @@ public class AppTests {
         assertThat(response.getContentAsString(), containsString("\"uid\":1,"));
         assertThat(response.getContentAsString(), containsString("app_key"));
     }
+
+    @Test
+    public void should_create_plan_correct() throws Exception {
+        mockMvc.perform(post("/api/plan/create")
+                .param("planname", "test1")
+                .param("starter", "1")
+                .param("start_time", Long.toString(DateTime.now().getMillis()))
+                .param("start_place", "成都")
+                .param("end_place", "北京"))
+                .andExpect(status().isOk())
+                .andExpect(content().string("{\"status_code\":200}"));
+    }
+
 }
