@@ -1,7 +1,5 @@
 package com.green.rider.server.controller;
 
-import com.google.common.base.Strings;
-import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import com.green.rider.server.dto.Plan;
 import com.green.rider.server.dto.User;
@@ -73,8 +71,7 @@ public class GreenRiderController {
     public
     @ResponseBody
     String getAllPlans() throws JSONException {
-        JSONArray plansJson = putPlansToJson(planRepository.findAll());
-        return plansJson.toString();
+        return getPlansJson(planRepository.findAll()).toString();
     }
 
     @RequestMapping(value = "/api/plan/create", method = RequestMethod.POST)
@@ -86,21 +83,13 @@ public class GreenRiderController {
         String startTime = request.getParameter("start_time");
         String startPlace = request.getParameter("start_place");
         String endPlace = request.getParameter("end_place");
-        String joinersSource = request.getParameter("joiners");
-
-        List<User> joiners = Lists.newArrayList();
-        if (!Strings.isNullOrEmpty(joinersSource)) {
-            String[] joinerUids = joinersSource.split(";");
-            for (String joinerUid : joinerUids) {
-                joiners.add(userRepository.findOne(Long.valueOf(joinerUid)));
-            }
-        }
 
         User startUser = userRepository.findOne(Long.valueOf(starter));
-        Plan plan = new Plan(planname, startUser, Long.valueOf(startTime), startPlace, endPlace, joiners);
+        Plan plan = new Plan(planname, startUser, Long.valueOf(startTime), startPlace, endPlace);
         planRepository.save(plan);
 
         JSONObject result = new JSONObject();
+        result.put("pid", plan.getPid());
         result.put("status_code", HttpServletResponse.SC_OK);
         return result.toString();
     }
@@ -141,24 +130,42 @@ public class GreenRiderController {
             }
         }
 
-        JSONArray plansJson = putPlansToJson(uidPlans);
-        return plansJson.toString();
+        return getPlansJson(uidPlans).toString();
     }
 
-    private JSONArray putPlansToJson(Collection<Plan> uidPlans) throws JSONException {
+    private JSONArray getPlansJson(Collection<Plan> uidPlans) throws JSONException {
         JSONArray plansJson = new JSONArray();
         for (Plan plan : uidPlans) {
             JSONObject planJson = new JSONObject();
             planJson.put("pid", plan.getPid());
             planJson.put("planname", plan.getPlanname());
-            planJson.put("starter", plan.getStarter());
+            planJson.put("starter", getStarterJson(plan));
             planJson.put("start_place", plan.getStartPlace());
             planJson.put("end_place", plan.getEndPlace());
             planJson.put("start_time", plan.getStartTime());
-            planJson.put("joiners", plan.getJoiners());
+            planJson.put("joiners", getJoinersJson(plan));
             plansJson.put(planJson);
         }
         return plansJson;
+    }
+
+    private JSONArray getJoinersJson(Plan plan) throws JSONException {
+        JSONArray joinersJson = new JSONArray();
+        List<User> joiners = plan.getJoiners();
+        for (User joiner : joiners) {
+            JSONObject joinerJson = new JSONObject();
+            joinerJson.put("uid", joiner.getUid());
+            joinerJson.put("username", joiner.getUsername());
+            joinersJson.put(joinerJson);
+        }
+        return joinersJson;
+    }
+
+    private JSONObject getStarterJson(Plan plan) throws JSONException {
+        JSONObject starterJson = new JSONObject();
+        starterJson.put("uid", plan.getStarter().getUid());
+        starterJson.put("username", plan.getStarter().getUsername());
+        return starterJson;
     }
 
     private String generateAppKey() {

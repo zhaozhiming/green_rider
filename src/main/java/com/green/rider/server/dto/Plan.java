@@ -1,7 +1,8 @@
 package com.green.rider.server.dto;
 
+import com.google.common.collect.Lists;
+
 import javax.persistence.*;
-import java.util.Date;
 import java.util.List;
 
 @Entity(name = "plans")
@@ -29,13 +30,13 @@ public class Plan {
     @OneToMany
     private List<User> joiners;
 
-    public Plan(String planname, User starter, long startTime, String startPlace, String endPlace, List<User> joiners) {
+    public Plan(String planname, User starter, long startTime, String startPlace, String endPlace) {
         this.planname = planname;
         this.starter = starter;
         this.startTime = startTime;
         this.startPlace = startPlace;
         this.endPlace = endPlace;
-        this.joiners = joiners;
+        this.joiners = Lists.newArrayList();
     }
 
     public Plan() {
