@@ -2,6 +2,7 @@ package com.green.rider.server.controller;
 
 import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Sets;
 import com.green.rider.server.dto.Plan;
 import com.green.rider.server.dto.User;
 import com.green.rider.server.repository.PlanRepository;
@@ -11,6 +12,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -19,8 +21,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.math.BigInteger;
 import java.security.SecureRandom;
-import java.util.Date;
+import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 
 @Controller
 public class GreenRiderController {
@@ -70,19 +73,7 @@ public class GreenRiderController {
     public
     @ResponseBody
     String getAllPlans() throws JSONException {
-        JSONArray plansJson = new JSONArray();
-
-        for (Plan plan : planRepository.findAll()) {
-            JSONObject planJson = new JSONObject();
-            planJson.put("pid", plan.getPid());
-            planJson.put("planname", plan.getPlanname());
-            planJson.put("starter", plan.getStarter());
-            planJson.put("start_place", plan.getStartPlace());
-            planJson.put("end_place", plan.getEndPlace());
-            planJson.put("start_time", plan.getStartTime());
-            planJson.put("joiners", plan.getJoiners());
-            plansJson.put(planJson);
-        }
+        JSONArray plansJson = putPlansToJson(planRepository.findAll());
         return plansJson.toString();
     }
 
@@ -105,8 +96,8 @@ public class GreenRiderController {
             }
         }
 
-        Plan plan = new Plan(planname, Long.valueOf(starter),
-                new Date(Long.valueOf(startTime)).getTime(), startPlace, endPlace, joiners);
+        User startUser = userRepository.findOne(Long.valueOf(starter));
+        Plan plan = new Plan(planname, startUser, Long.valueOf(startTime), startPlace, endPlace, joiners);
         planRepository.save(plan);
 
         JSONObject result = new JSONObject();
@@ -129,6 +120,45 @@ public class GreenRiderController {
         JSONObject result = new JSONObject();
         result.put("status_code", HttpServletResponse.SC_OK);
         return result.toString();
+    }
+
+    @RequestMapping(value = "/api/plans/{uid}", method = RequestMethod.GET)
+    public
+    @ResponseBody
+    String findPlansByUid(@PathVariable Long uid) throws JSONException {
+        User starter = userRepository.findOne(uid);
+
+        List<Plan> allPlans = planRepository.findAll();
+        Set<Plan> uidPlans = Sets.newHashSet();
+        for (Plan plan : allPlans) {
+            if (starter.equals(plan.getStarter())) {
+                uidPlans.add(plan);
+                continue;
+            }
+
+            if (plan.getJoiners().contains(starter)) {
+                uidPlans.add(plan);
+            }
+        }
+
+        JSONArray plansJson = putPlansToJson(uidPlans);
+        return plansJson.toString();
+    }
+
+    private JSONArray putPlansToJson(Collection<Plan> uidPlans) throws JSONException {
+        JSONArray plansJson = new JSONArray();
+        for (Plan plan : uidPlans) {
+            JSONObject planJson = new JSONObject();
+            planJson.put("pid", plan.getPid());
+            planJson.put("planname", plan.getPlanname());
+            planJson.put("starter", plan.getStarter());
+            planJson.put("start_place", plan.getStartPlace());
+            planJson.put("end_place", plan.getEndPlace());
+            planJson.put("start_time", plan.getStartTime());
+            planJson.put("joiners", plan.getJoiners());
+            plansJson.put(planJson);
+        }
+        return plansJson;
     }
 
     private String generateAppKey() {

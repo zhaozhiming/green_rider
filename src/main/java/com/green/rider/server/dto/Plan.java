@@ -14,8 +14,8 @@ public class Plan {
     @Basic
     private String planname;
 
-    @Basic
-    private long starter;
+    @OneToOne
+    private User starter;
 
     @Basic
     private long startTime;
@@ -29,7 +29,7 @@ public class Plan {
     @OneToMany
     private List<User> joiners;
 
-    public Plan(String planname, long starter, long startTime, String startPlace, String endPlace, List<User> joiners) {
+    public Plan(String planname, User starter, long startTime, String startPlace, String endPlace, List<User> joiners) {
         this.planname = planname;
         this.starter = starter;
         this.startTime = startTime;
@@ -57,11 +57,11 @@ public class Plan {
         this.planname = planname;
     }
 
-    public long getStarter() {
+    public User getStarter() {
         return starter;
     }
 
-    public void setStarter(long starter) {
+    public void setStarter(User starter) {
         this.starter = starter;
     }
 
