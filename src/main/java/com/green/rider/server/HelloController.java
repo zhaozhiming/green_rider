@@ -60,4 +60,17 @@ public class HelloController {
         return result.toString();
     }
 
+
+    @RequestMapping(value = "/api/plan/join", method = RequestMethod.POST)
+    public
+    @ResponseBody
+    String joinPlan(HttpServletRequest request) throws JSONException {
+        String pid = request.getParameter("pid");
+        String uid = request.getParameter("uid");
+
+        JSONObject result = new JSONObject();
+        result.put("status_code", HttpServletResponse.SC_OK);
+        return result.toString();
+    }
+
 }
