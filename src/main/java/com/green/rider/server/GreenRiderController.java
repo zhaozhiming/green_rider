@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 @Controller
-public class HelloController {
+public class GreenRiderController {
     @RequestMapping(value = "/api/user/create", method = RequestMethod.POST)
     public
     @ResponseBody
