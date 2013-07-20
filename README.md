@@ -12,7 +12,7 @@
 <p>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;}<br />&nbsp; &nbsp;&nbsp; &nbsp;}<br />&nbsp; &nbsp;}</p>
 <p>&nbsp;</p>
 <p><span><strong>================================</strong></span></p>
-<p>//find plans by uid, select both starter and joiner<br />http://localhost:9898/api/plans<br /><br />type: GET<br />request:<br />&nbsp; &nbsp;null<br />response:</p>
+<p>//find all plans&nbsp;<br />http://localhost:9898/api/plans<br /><br />type: GET<br />request:<br />&nbsp; &nbsp;null<br />response:</p>
 <p>&nbsp; &nbsp;{<br />&nbsp; &nbsp;&nbsp; &nbsp;{<br />&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;"pid": xx,<br />&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;"planname": xx,<br />&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;"starter": &nbsp;{ uid, username},<br />&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;"start_place": xx,<br />&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;"end_place": xx,<br />&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;"start_time": xx,</p>
 <p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;"role": xx, &nbsp;// &nbsp;"none"<br />&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;"joiners":<br />&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;{ &nbsp;&nbsp;</p>
 <p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;{uid, username},&nbsp;{uid, username}</p>
