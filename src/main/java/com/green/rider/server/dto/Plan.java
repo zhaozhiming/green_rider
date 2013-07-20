@@ -46,56 +46,28 @@ public class Plan {
         return pid;
     }
 
-    public void setPid(Long pid) {
-        this.pid = pid;
-    }
-
     public String getPlanname() {
         return planname;
-    }
-
-    public void setPlanname(String planname) {
-        this.planname = planname;
     }
 
     public User getStarter() {
         return starter;
     }
 
-    public void setStarter(User starter) {
-        this.starter = starter;
-    }
-
     public long getStartTime() {
         return startTime;
-    }
-
-    public void setStartTime(long startTime) {
-        this.startTime = startTime;
     }
 
     public String getStartPlace() {
         return startPlace;
     }
 
-    public void setStartPlace(String startPlace) {
-        this.startPlace = startPlace;
-    }
-
     public String getEndPlace() {
         return endPlace;
     }
 
-    public void setEndPlace(String endPlace) {
-        this.endPlace = endPlace;
-    }
-
     public List<User> getJoiners() {
         return joiners;
-    }
-
-    public void setJoiners(List<User> joiners) {
-        this.joiners = joiners;
     }
 
     public void join(User user) {
