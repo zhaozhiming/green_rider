@@ -26,7 +26,7 @@ public class Plan {
     @Basic
     private String endPlace;
 
-    @Basic
+    @OneToMany
     private List<User> joiners;
 
     public Plan(String planname, String starter, Date startTime, String startPlace, String endPlace, List<User> joiners) {
@@ -36,6 +36,9 @@ public class Plan {
         this.startPlace = startPlace;
         this.endPlace = endPlace;
         this.joiners = joiners;
+    }
+
+    public Plan() {
     }
 
     public Long getPid() {
