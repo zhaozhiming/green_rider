@@ -47,6 +47,25 @@ public class GreenRiderController {
         return userJson.toString();
     }
 
+    @RequestMapping(value = "/api/login", method = RequestMethod.POST)
+    public
+    @ResponseBody
+    String login(HttpServletRequest request) throws JSONException {
+        String username = request.getParameter("username");
+        String password = request.getParameter("password");
+
+        User user = userRepository.findByUsernameAndPassword(username, password);
+
+        if (user == null) {
+            return new JSONObject().toString();
+        }
+
+        JSONObject userJson = new JSONObject();
+        userJson.put("uid", user.getUid());
+        userJson.put("app_key", user.getAppKey());
+        return userJson.toString();
+    }
+
     @RequestMapping(value = "/api/plans", method = RequestMethod.GET)
     public
     @ResponseBody
