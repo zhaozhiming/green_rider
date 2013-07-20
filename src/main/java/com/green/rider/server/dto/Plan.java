@@ -27,7 +27,7 @@ public class Plan {
     @Basic
     private String endPlace;
 
-    @OneToMany
+    @OneToMany(fetch=FetchType.EAGER)
     private List<User> joiners;
 
     public Plan(String planname, User starter, Long startTime, String startPlace, String endPlace) {

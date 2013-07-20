@@ -31,6 +31,23 @@ public class AppTests {
     @Test
     public void should_create_user_correct() throws Exception {
 
+        for (int i = 0; i < 10;i++){
+            mockMvc.perform(post("/api/user/create")
+                    .param("username", "user" + i)
+                    .param("password", "123")
+            ).andReturn();
+        }
+
+        for (int i = 0; i < 10;i++){
+            mockMvc.perform(post("/api/plan/create")
+                    .param("planname", "plan" + i)
+                    .param("starter", i + 1 + "")
+                    .param("start_time", "1375372510.00")
+                    .param("start_place", "123;456")
+                    .param("end_place", "456;123")
+            ).andReturn();
+        }
+
 
     }
 
