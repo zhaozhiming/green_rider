@@ -15,10 +15,10 @@ public class Plan {
     private String planname;
 
     @Basic
-    private String starter;
+    private long starter;
 
     @Basic
-    private Date startTime;
+    private long startTime;
 
     @Basic
     private String startPlace;
@@ -29,7 +29,7 @@ public class Plan {
     @OneToMany
     private List<User> joiners;
 
-    public Plan(String planname, String starter, Date startTime, String startPlace, String endPlace, List<User> joiners) {
+    public Plan(String planname, long starter, long startTime, String startPlace, String endPlace, List<User> joiners) {
         this.planname = planname;
         this.starter = starter;
         this.startTime = startTime;
@@ -57,19 +57,19 @@ public class Plan {
         this.planname = planname;
     }
 
-    public String getStarter() {
+    public long getStarter() {
         return starter;
     }
 
-    public void setStarter(String starter) {
+    public void setStarter(long starter) {
         this.starter = starter;
     }
 
-    public Date getStartTime() {
+    public long getStartTime() {
         return startTime;
     }
 
-    public void setStartTime(Date startTime) {
+    public void setStartTime(long startTime) {
         this.startTime = startTime;
     }
 

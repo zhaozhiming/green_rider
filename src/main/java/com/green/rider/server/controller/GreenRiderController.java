@@ -5,9 +5,6 @@ import com.green.rider.server.dto.Plan;
 import com.green.rider.server.dto.User;
 import com.green.rider.server.repository.PlanRepository;
 import com.green.rider.server.repository.UserRepository;
-import org.joda.time.DateTime;
-import org.joda.time.format.DateTimeFormat;
-import org.joda.time.format.DateTimeFormatter;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -19,12 +16,13 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.math.BigInteger;
+import java.security.SecureRandom;
+import java.util.Date;
 import java.util.List;
 
 @Controller
 public class GreenRiderController {
-    public static final DateTimeFormatter FMT = DateTimeFormat.forPattern("yyyy-MM-dd");
-
     @Autowired
     private UserRepository userRepository;
 
@@ -37,7 +35,9 @@ public class GreenRiderController {
     String createUser(HttpServletRequest request) throws JSONException {
         String username = request.getParameter("username");
         String password = request.getParameter("password");
-        User user = new User(username, password);
+        String appKey = generateAppKey();
+
+        User user = new User(username, password, appKey);
         userRepository.save(user);
 
         JSONObject userJson = new JSONObject();
@@ -83,7 +83,8 @@ public class GreenRiderController {
             joiners.add(userRepository.findOne(Long.valueOf(joinerUid)));
         }
 
-        Plan plan = new Plan(planname, starter, DateTime.parse(startTime, FMT).toDate(), startPlace, endPlace, joiners);
+        Plan plan = new Plan(planname, Long.valueOf(starter),
+                new Date(Long.valueOf(startTime)).getTime(), startPlace, endPlace, joiners);
         planRepository.save(plan);
 
         JSONObject result = new JSONObject();
@@ -106,6 +107,10 @@ public class GreenRiderController {
         JSONObject result = new JSONObject();
         result.put("status_code", HttpServletResponse.SC_OK);
         return result.toString();
+    }
+
+    private String generateAppKey() {
+        return new BigInteger(130, new SecureRandom()).toString(32);
     }
 
 }

@@ -9,7 +9,6 @@ public class User {
     private Long uid;
 
     @Basic
-    @GeneratedValue(strategy = GenerationType.AUTO)
     private String appKey;
 
     @Basic
@@ -18,9 +17,10 @@ public class User {
     @Basic
     private String password;
 
-    public User(String username, String password) {
+    public User(String username, String password, String appKey) {
         this.username = username;
         this.password = password;
+        this.appKey = appKey;
     }
 
     public User() {
