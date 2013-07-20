@@ -98,6 +98,11 @@ public class GreenRiderController {
         String pid = request.getParameter("pid");
         String uid = request.getParameter("uid");
 
+        Plan plan = planRepository.findOne(Long.valueOf(pid));
+        User user = userRepository.findOne(Long.valueOf(uid));
+        plan.join(user);
+        planRepository.save(plan);
+
         JSONObject result = new JSONObject();
         result.put("status_code", HttpServletResponse.SC_OK);
         return result.toString();

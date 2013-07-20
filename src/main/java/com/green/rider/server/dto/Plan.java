@@ -93,4 +93,8 @@ public class Plan {
     public void setJoiners(List<User> joiners) {
         this.joiners = joiners;
     }
+
+    public void join(User user) {
+        this.joiners.add(user);
+    }
 }
