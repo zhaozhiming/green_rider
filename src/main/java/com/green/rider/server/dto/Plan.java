@@ -19,7 +19,7 @@ public class Plan {
     private User starter;
 
     @Basic
-    private long startTime;
+    private Long startTime;
 
     @Basic
     private String startPlace;
@@ -30,7 +30,7 @@ public class Plan {
     @OneToMany
     private List<User> joiners;
 
-    public Plan(String planname, User starter, long startTime, String startPlace, String endPlace) {
+    public Plan(String planname, User starter, Long startTime, String startPlace, String endPlace) {
         this.planname = planname;
         this.starter = starter;
         this.startTime = startTime;
@@ -54,7 +54,7 @@ public class Plan {
         return starter;
     }
 
-    public long getStartTime() {
+    public Long getStartTime() {
         return startTime;
     }
 

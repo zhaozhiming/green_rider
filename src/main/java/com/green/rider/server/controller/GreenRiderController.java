@@ -78,7 +78,7 @@ public class GreenRiderController {
         String endPlace = request.getParameter("end_place");
 
         User startUser = userRepository.findOne(Long.valueOf(starter));
-        Plan plan = new Plan(planname, startUser, Long.valueOf(startTime), startPlace, endPlace);
+        Plan plan = new Plan(planname, startUser, Math.round(Double.valueOf(startTime)), startPlace, endPlace);
         planRepository.save(plan);
 
         JSONObject result = new JSONObject();
@@ -102,6 +102,13 @@ public class GreenRiderController {
         JSONObject result = new JSONObject();
         result.put("status_code", HttpServletResponse.SC_OK);
         return result.toString();
+    }
+
+    @RequestMapping(value = "/api/plans", method = RequestMethod.GET)
+    public
+    @ResponseBody
+    String getAllPlans() throws JSONException {
+        return getPlansJson(planRepository.findAll(), null).toString();
     }
 
     @RequestMapping(value = "/api/plans/{uid}", method = RequestMethod.GET)
@@ -137,7 +144,11 @@ public class GreenRiderController {
             planJson.put("end_place", plan.getEndPlace());
             planJson.put("start_time", plan.getStartTime());
             planJson.put("joiners", getJoinersJson(plan));
-            planJson.put("role", (plan.getStarter().equals(starter)) ? "starter" : "joiner");
+            if (starter == null) {
+                planJson.put("role", "none");
+            } else {
+                planJson.put("role", (plan.getStarter().equals(starter)) ? "starter" : "joiner");
+            }
             plansJson.put(planJson);
         }
         return plansJson;
