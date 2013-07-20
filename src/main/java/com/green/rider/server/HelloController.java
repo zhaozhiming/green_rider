@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 @Controller
 public class HelloController {
@@ -41,6 +42,22 @@ public class HelloController {
         plans.put(plan);
 
         return plans.toString();
+    }
+
+    @RequestMapping(value = "/api/plan/create", method = RequestMethod.POST)
+    public
+    @ResponseBody
+    String createPlans(HttpServletRequest request) throws JSONException {
+        String name = request.getParameter("name");
+        String starter = request.getParameter("starter");
+        String startTime = request.getParameter("start_time");
+        String startPlace = request.getParameter("start_place");
+        String endPlace = request.getParameter("end_place");
+        String joiners = request.getParameter("joiners");
+
+        JSONObject result = new JSONObject();
+        result.put("status_code", HttpServletResponse.SC_OK);
+        return result.toString();
     }
 
 }
