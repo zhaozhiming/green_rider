@@ -27,15 +27,19 @@ public class Plan {
     @Basic
     private String endPlace;
 
-    @OneToMany(fetch=FetchType.EAGER)
+    @Basic
+    private String endLocation;
+
+    @ManyToMany(fetch=FetchType.EAGER)
     private List<User> joiners;
 
-    public Plan(String planname, User starter, Long startTime, String startPlace, String endPlace) {
+    public Plan(String planname, User starter, Long startTime, String startPlace, String endPlace, String endLocation) {
         this.planname = planname;
         this.starter = starter;
         this.startTime = startTime;
         this.startPlace = startPlace;
         this.endPlace = endPlace;
+        this.endLocation = endLocation;
         this.joiners = Lists.newArrayList();
     }
 
@@ -72,5 +76,9 @@ public class Plan {
 
     public void join(User user) {
         this.joiners.add(user);
+    }
+
+    public String getEndLocation() {
+        return endLocation;
     }
 }

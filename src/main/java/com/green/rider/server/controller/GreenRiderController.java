@@ -76,9 +76,10 @@ public class GreenRiderController {
         String startTime = request.getParameter("start_time");
         String startPlace = request.getParameter("start_place");
         String endPlace = request.getParameter("end_place");
+        String endLocation = request.getParameter("end_location");
 
         User startUser = userRepository.findOne(Long.valueOf(starter));
-        Plan plan = new Plan(planname, startUser, Math.round(Double.valueOf(startTime)), startPlace, endPlace);
+        Plan plan = new Plan(planname, startUser, Math.round(Double.valueOf(startTime)), startPlace, endPlace, endLocation);
         planRepository.save(plan);
 
         JSONObject result = new JSONObject();
@@ -142,6 +143,7 @@ public class GreenRiderController {
             planJson.put("starter", getStarterJson(plan));
             planJson.put("start_place", plan.getStartPlace());
             planJson.put("end_place", plan.getEndPlace());
+            planJson.put("end_location", plan.getEndLocation());
             planJson.put("start_time", plan.getStartTime());
             planJson.put("joiners", getJoinersJson(plan));
             if (starter == null) {

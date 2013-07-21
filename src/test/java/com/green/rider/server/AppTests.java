@@ -30,7 +30,6 @@ public class AppTests {
 
     @Test
     public void should_create_user_correct() throws Exception {
-
         for (int i = 0; i < 10;i++){
             mockMvc.perform(post("/api/user/create")
                     .param("username", "user" + i)
@@ -47,8 +46,6 @@ public class AppTests {
                     .param("end_place", "456;123")
             ).andReturn();
         }
-
-
     }
 
 }
